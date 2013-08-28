@@ -390,6 +390,11 @@ inline void swap(T& a, T& b) {
 
 }; //qhwc namespace
 
+enum eAnimationState{
+    ANIMATION_STOPPED,
+    ANIMATION_STARTED,
+};
+
 // -----------------------------------------------------------------------------
 // HWC context
 // This structure contains overall state
@@ -419,18 +424,12 @@ struct hwc_context_t {
     qhwc::CablProp mCablProp;
     qhwc::HwcDebug *mHwcDebug[HWC_NUM_DISPLAY_TYPES];
     hwc_rect_t mViewFrame[HWC_NUM_DISPLAY_TYPES];
-
     // stores the #numHwLayers of the previous frame
     // for each display device
     int mPrevHwLayerCount[HWC_NUM_DISPLAY_TYPES];
-
-    // No animation on External display feature
-    // Notifies hwcomposer about the device orientation before animation.
+    eAnimationState mAnimationState[HWC_NUM_DISPLAY_TYPES];
+    // stores the primary device orientation
     int deviceOrientation;
-    // Stores the crop, dest rect and transform value of video before animation.
-    hwc_rect_t mPrevCropVideo;
-    hwc_rect_t mPrevDestVideo;
-    int mPrevTransformVideo;
     //Securing in progress indicator
     bool mSecuring;
     //WFD on proprietary stack
